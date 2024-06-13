@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <title>Unos</title>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="style.css">
+
+</head>
+<body>
+    <header>
+        <div class="header-container"></div>
+        <nav class="nav-bar">
+            <ul class="nav-ul">
+                <li><a href="index.php">Home</a></li>
+                <li><a href="kategorija.php?category=Procedural programming language">Procedural Programming Languages</a></li>
+                <li><a href="kategorija.php?category=Object-oriented language">Object-Oriented Languages</a></li>
+                <li><a href="#">Form</a></li>
+                <li><a href="prijava.php">Prijava</a></li>
+                <li><a href="Registracija.php">Registracija</a></li>
+
+            </ul>
+        </nav>
+    </header>
+    <section>
+        <h1>Enter Programming Language</h1>
+        <form action="skripta.php" method="POST" enctype="multipart/form-data" class="container" onsubmit="return validateForm()">
+            <div class="form-group">
+                <label for="title">Name:</label>
+                <input type="text" id="title" name="title" class="form-control" >
+                <span id="errorTitle" class="error-message"></span>
+            </div>
+            <div class="form-group">
+                <label for="summary">Summary:</label>
+                <textarea id="summary" name="summary" class="form-control" rows="2" ></textarea>
+                <span id="errorSummary" class="error-message"></span>
+
+            </div>
+            <div class="form-group">
+                <label for="content">Content:</label>
+                <textarea id="content" name="content" class="form-control" rows="6" ></textarea>
+                <span id="errorContent" class="error-message"></span>
+
+            </div>
+            <div class="form-group">
+                <label for="category">Select language type:</label>
+                <select name="category" id="category" class="form-control" >
+                    <option value="" selected disabled hidden>Select</option>
+                    <option value="Procedural programming language">Procedural programming language</option>
+                    <option value="Object-oriented language">Object-oriented language</option>
+                </select>
+                <span id="errorCategory" class="error-message"></span>
+            </div>
+            <div class="form-group">
+                <label for="picture">Picture:</label>
+                <input type="file" id="picture" name="picture" class="form-control-file" accept="image/*">
+                <span id="errorPicture" class="error-message"></span>
+            </div>
+            <div class="form-group form-check">
+                <input type="checkbox" id="display" name="display" class="form-check-input">
+                <label for="display" class="form-check-label">Display on page</label>
+            </div>
+            <button type="reset" class="btn btn-primary">Reset</button>
+            <button type="submit" class="btn btn-primary" id="gumb">Submit</button>
+        </form>
+    </section>
+
+    <script>
+        document.getElementById("gumb").onclick = function(event) {
+            var slanje_forme = true;
+
+            // Reset previous errors
+            resetErrors();
+
+            // Validate Title
+            var title = document.getElementById('title').value.trim();
+            var errorTitle = document.getElementById('errorTitle');
+            if (title === '' || title.length > 30) {
+                slanje_forme = false;
+                errorTitle.innerHTML = (title === '') ? "Language name cannot be empty." : "Article title must be smaller and 30 characters.";
+                errorTitle.style.color = "red";
+                document.getElementById('title').style.border = "1px solid red";
+            }
+
+            // Validate Short Summary (About)
+            var summary = document.getElementById('summary').value.trim();
+            var errorSummary = document.getElementById('errorSummary');
+            if (summary === '' || summary.length < 10 || summary.length > 100) {
+                slanje_forme = false;
+                errorSummary.innerHTML = (summary === '') ? "Short summary cannot be empty." : "Short summary must be between 10 and 100 characters.";
+                errorSummary.style.color = "red";
+                document.getElementById('summary').style.border = "1px solid red";
+            }
+
+            // Validate Article Content
+            var content = document.getElementById('content').value.trim();
+            var errorContent = document.getElementById('errorContent');
+            if (content === '') {
+                slanje_forme = false;
+                errorContent.innerHTML = "Article content cannot be empty.";
+                errorContent.style.color = "red";
+                document.getElementById('content').style.border = "1px solid red";
+            }
+
+            // Validate Photo Upload
+            var picture = document.getElementById('picture').value;
+            var errorPicture = document.getElementById('errorPicture');
+            if (picture === '') {
+                slanje_forme = false;
+                errorPicture.innerHTML = "Please upload an image.";
+                errorPicture.style.color = "red";
+                document.getElementById('picture').style.border = "1px solid red";
+            }
+
+            // Validate Category Selection
+            var category = document.getElementById('category').value;
+            var errorCategory = document.getElementById('errorCategory');
+            if (category === '') {
+                slanje_forme = false;
+                errorCategory.innerHTML = "Please select an article category.";
+                errorCategory.style.color = "red";
+                document.getElementById('category').style.border = "1px solid red";
+            }
+
+            if (!slanje_forme) {
+                event.preventDefault();
+            }
+        };
+
+        function resetErrors() {
+            var errorMessages = document.getElementsByClassName('error-message');
+            for (var i = 0; i < errorMessages.length; i++) {
+                errorMessages[i].innerHTML = '';
+            }
+
+            var formFields = document.getElementsByClassName('form-field-textual');
+            for (var j = 0; j < formFields.length; j++) {
+                formFields[j].style.border = "1px solid black";
+            }
+        }
+    </script>
+
+    <footer>
+        <p class="footer-text">Laura Šestak| 2024 | lsestak@tvz.hr</p>
+    </footer>
+
+</body>
+</html>
